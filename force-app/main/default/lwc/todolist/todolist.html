@@ -1,7 +1,9 @@
 <template>
-    <lightning-card title="What would you like to remind yourself" icon-name="custom:custom63">
-        <div class="slds-m-around_medium">
-            hello
-        </div>
-    </lightning-card>
+    <c-dynamic-table 
+        object-api-name="Pop_Reminder__c" 
+        column-list={columns} 
+        title="What do you wnat to remind yourself?">
+    </c-dynamic-table>
+    <br/>
+    <lightning-button variant="brand" label="Submit" onclick={submit}></lightning-button>
 </template>

@@ -1,10 +1,53 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
+import createReminders from '@salesforce/apex/PopReminderController.createReminders';
 import getPopReminders from '@salesforce/apex/PopReminderController.getPopReminders';
-import { updateRecord } from 'lightning/uiRecordApi';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
-import POP_REMINDER_FIELD from '@salesforce/schema/Pop_Reminder__c.Reminder_Description__c';
-import POP_DUE_DATE_FIELD from '@salesforce/schema/Pop_Reminder__c.Due_Date__c';
-import POP_SEVERITY_FIELD from '@salesforce/schema/Pop_Reminder__c.Severity__c';
+const columns = [
+    {"label":"Reminder", "apiName":"Reminder_Description__c", "fieldType":"text", "objectName":"Pop_Reminder__c"},
+    {"label":"Severity", "apiName":"Severity__c", "fieldType":"picklist", "objectName":"Pop_Reminder__c"}
+]
 
+export default class Todolist extends LightningElement {
+    @track records;
+    @api recordJson;
+    @track columns=columns;
+    submit(event) {
+        var table = this.template.querySelector('c-dynamic-table');
+        if(table != undefined) {
+            this.records = table.retrieveRecords();
 
-export default class Todolist extends LightningElement {}
+            console.log(JSON.stringify(this.records));
+            createReminders({ reminders: this.records})
+            .then(result => { 
+                this.message = result;
+                this.error = undefined;
+                if(this.message != undefined) {
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                            title: 'Sucess',
+                            message: 'Reminders created',
+                            variant: 'success'
+                        })
+                    );
+                }
+
+                console.log(JSON.stringify(result));
+                console.log("result", this.message);
+            })
+            .catch(error => {
+                this.message = undefined;
+                this.error = error;
+
+                console.log('Error: ', JSON.stringify(this.error));
+                this.dispatchEvent(
+                    new ShowToastEvent({ 
+                        title: 'Error creating records',
+                        message: error.body.message,
+                        variant: 'error'
+                    })
+                );
+            })
+        }
+    }
+}

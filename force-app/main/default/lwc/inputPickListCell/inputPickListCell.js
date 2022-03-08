@@ -2,7 +2,7 @@ import { LightningElement, track, wire, api } from 'lwc';
 import getPickList from '@salesforce/apex/PopReminderController.getPickList';
 
 export default class InputPickListCell extends LightningElement {
-    @api options;
+    @api options=[];
     value;
     @api record;
     @api field;
@@ -24,7 +24,7 @@ export default class InputPickListCell extends LightningElement {
         .then(result => {
             if(result) {
                 for(let i=0; i<result.length; i++) {
-                    console.log('id='+resultp[i]);
+                    console.log('id='+result[i]);
                     this.options = [...this.options, {value: result[i], label: result[i]}];
                 }
                 this.error = undefined;
