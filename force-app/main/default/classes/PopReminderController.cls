@@ -1,6 +1,6 @@
 public class PopReminderController {
 
-    @auraenabled(cacheable=true)
+    @auraenabled
     public static void createReminders(List<Pop_Reminder__c> reminders) {
         if(!reminders.isEmpty()) {
             insert reminders;
@@ -30,4 +30,6 @@ public class PopReminderController {
             WHERE Pop_User__c = :userId
         ];
     }
+    
+    private class AuraException extends Exception {}
 }

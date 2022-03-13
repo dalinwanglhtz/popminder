@@ -23,24 +23,17 @@ export default class Todolist extends LightningElement {
             .then(result => { 
                 this.message = result;
                 this.error = undefined;
-                if(this.message != undefined) {
-                    this.dispatchEvent(
-                        new ShowToastEvent({
-                            title: 'Sucess',
-                            message: 'Reminders created',
-                            variant: 'success'
-                        })
-                    );
-                }
-
-                console.log(JSON.stringify(result));
-                console.log("result", this.message);
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Sucess',
+                        message: 'Reminders created',
+                        variant: 'success'
+                    })
+                );
             })
             .catch(error => {
                 this.message = undefined;
                 this.error = error;
-
-                console.log('Error: ', JSON.stringify(this.error));
                 this.dispatchEvent(
                     new ShowToastEvent({ 
                         title: 'Error creating records',
