@@ -5,7 +5,8 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const columns = [
     {"label":"Reminder", "apiName":"Reminder_Description__c", "fieldType":"text", "objectName":"Pop_Reminder__c"},
-    {"label":"Severity", "apiName":"Severity__c", "fieldType":"picklist", "objectName":"Pop_Reminder__c"}
+    {"label":"Severity", "apiName":"Severity__c", "fieldType":"picklist", "objectName":"Pop_Reminder__c"},
+    {"label":"Due Date", "apiName":"Due_Date__c", "fieldType":"datetime", "objectName":"Pop_Reminder__c"}
 ]
 
 export default class Todolist extends LightningElement {
