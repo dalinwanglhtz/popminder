@@ -1,4 +1,4 @@
-import { LightningElement, track, api, wire } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 
 export default class DynamicTable extends LightningElement {
     @api columnList;
