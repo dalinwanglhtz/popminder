@@ -1,6 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
 import createReminders from '@salesforce/apex/PopReminderController.createReminders';
-import getPopReminders from '@salesforce/apex/PopReminderController.getPopReminders';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const columns = [
