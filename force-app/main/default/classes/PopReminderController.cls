@@ -1,6 +1,37 @@
 public class PopReminderController {
 
     @auraenabled
+    public static User getUser(Id userId) {
+        User user = new User();
+        try {
+            user = [
+                SELECT Id, Name
+                FROM User
+                WHERE Id = :userId
+            ];
+        } catch (Exception e) {
+            throw new AuraHandledException('User not found. '+e.getMessage());
+        }
+        
+        return user;
+    }
+    
+    @auraenabled
+    public static Pop_User__c getPopUser() {
+        Pop_User__c pUser = new Pop_User__c();
+        try {
+            pUser = [
+                SELECT Id, Name, Email__c, Persona__r.Name
+                FROM Pop_User__c
+                WHERE Persona__c = :UserInfo.getUserId()
+        	];
+        } catch(Exception e) {
+            throw new AuraHandledException('Pop User not found. '+e.getMessage());
+        }
+        return pUser;
+    }
+    
+    @auraenabled
     public static void createPopUser(String email) {
         Pop_User__c pUser = new Pop_User__c();
         pUser.Email__c = email;
