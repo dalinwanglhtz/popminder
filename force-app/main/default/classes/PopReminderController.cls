@@ -1,13 +1,13 @@
 public class PopReminderController {
 
     @auraenabled
-    public static User getUser(Id userId) {
+    public static User getUser() {
         User user = new User();
         try {
             user = [
-                SELECT Id, Name
+                SELECT Id, Name, Email
                 FROM User
-                WHERE Id = :userId
+                WHERE Id = :UserInfo.getUserId()
             ];
         } catch (Exception e) {
             throw new AuraHandledException('User not found. ');
