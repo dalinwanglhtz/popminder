@@ -2,7 +2,7 @@
     <lightning-card class="slds-card_boundary" icon-name="custom:custom15">
         <h1 slot="title">{title}</h1>
         <div class="slds-var-m-around_small">
-            <lightning-input type="email" label="Email"></lightning-input>
+            <lightning-input value={emailValue} type="email" label="Email"></lightning-input>
             <br/>
             <lightning-button variant="brand" label="Submit" onclick={handleSubmit}></lightning-button>
         </div>

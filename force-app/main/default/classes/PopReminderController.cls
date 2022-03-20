@@ -10,7 +10,7 @@ public class PopReminderController {
                 WHERE Id = :userId
             ];
         } catch (Exception e) {
-            throw new AuraHandledException('User not found. '+e.getMessage());
+            throw new AuraHandledException('User not found. ');
         }
         
         return user;
@@ -26,7 +26,7 @@ public class PopReminderController {
                 WHERE Persona__c = :UserInfo.getUserId()
         	];
         } catch(Exception e) {
-            throw new AuraHandledException('Pop User not found. '+e.getMessage());
+            throw new AuraHandledException('Pop User not found. Please register');
         }
         return pUser;
     }

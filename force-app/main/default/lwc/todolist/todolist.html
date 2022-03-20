@@ -1,10 +1,10 @@
 <template>
     <div if:false={isPopUser}>
-        <c-register-pop-user></c-register-pop-user>
+        <c-register-pop-user onpopuserregistered={popUserRegisterHandler}></c-register-pop-user>
     </div>
     <div if:true={isPopUser}>
         <div class="slds-text-heading_medium slds-var-m-around_small">
-            Welcome!&nbsp;{userName}
+            Hello!&nbsp;{userName}
         </div>
         <c-add-reminder></c-add-reminder>
     </div>
