@@ -41,7 +41,11 @@ public class PopReminderController {
     
     @auraenabled
     public static void createReminders(List<Pop_Reminder__c> reminders) {
+        Pop_User__c pUser = getPopUser();
         if(!reminders.isEmpty()) {
+            for(Pop_Reminder__c reminder: reminders) {
+            	reminder.Pop_User__c = pUser.Id;
+        	}
             insert reminders;
         }
     }
@@ -63,10 +67,12 @@ public class PopReminderController {
     
     @auraenabled(cacheable=true)
     public static List<Pop_Reminder__c> getPopReminders(String userId) {
+        Pop_User__c pUser = getPopUser();
         return [
             SELECT Id, Name, Reminder_Description__c, Due_Date__c, Severity__c, Status__c
             FROM Pop_Reminder__c
-            WHERE Pop_User__c = :userId
+            WHERE Pop_User__c = :pUser.Id
+            ORDER BY Due_Date__c DESC
         ];
     }
     

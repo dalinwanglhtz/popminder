@@ -1,6 +1,5 @@
 import { LightningElement } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import getPopReminders from '@salesforce/apex/PopReminderController.getPopReminders';
 import getUser from '@salesforce/apex/PopReminderController.getUser';
 import getPopUser from '@salesforce/apex/PopReminderController.getPopUser';
 
