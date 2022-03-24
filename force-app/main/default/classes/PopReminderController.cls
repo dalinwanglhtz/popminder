@@ -50,6 +50,16 @@ public class PopReminderController {
         }
     }
     
+    @auraenabled
+    public static void deleteReminder(String recordId) {
+        Pop_Reminder__c pReminder = [
+            SELECT Id, Name
+            FROM Pop_Reminder__c
+            WHERE Id = :recordId
+        ];
+        delete pReminder;
+    }
+    
     @auraenabled(cacheable=true)
     public static List<String> getPickList(String objectName, String fieldName) {
         List<String> values = new List<String>();
