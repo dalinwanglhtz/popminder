@@ -28,6 +28,9 @@ export default class AddReminder extends LightningElement {
                         variant: 'success'
                     })
                 );
+                this.dispatchEvent(
+                    new CustomEvent('remindercreated')
+                );
             })
             .catch(error => {
                 this.message = undefined;

@@ -38,6 +38,11 @@ export default class Todolist extends LightningElement {
         this.getCurrentUser();
     }
 
+    handleReminderCreated() {
+        let cmp = this.template.querySelector('c-list-reminders');
+        cmp.refreshComponent();
+    }
+
     showToastMessage(title, message, variant) {
         this.dispatchEvent(
             new ShowToastEvent({

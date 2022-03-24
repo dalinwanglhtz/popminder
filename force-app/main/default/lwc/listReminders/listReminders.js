@@ -1,4 +1,5 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
+import { refreshApex } from '@salesforce/apex';
 import getPopReminders from '@salesforce/apex/PopReminderController.getPopReminders';
 
 const columns = [
@@ -9,8 +10,23 @@ const columns = [
 ];
 
 export default class ListReminders extends LightningElement {
-    records;
+    title = 'Reminders';
+    @track records = [];
+    @track refreshedRecords = [];
     columns = columns;
+
+    @wire(getPopReminders)
+    reminderList(result) {
+        this.refreshedRecords = result;
+
+        if(result.data) {
+            this.records = result.data;
+            this.error = undefined;
+        } else {
+            this.error = result.error;
+            this.records = [];
+        }
+    }
 
     connectedCallback() {
         getPopReminders()
@@ -21,5 +37,9 @@ export default class ListReminders extends LightningElement {
         .catch(err => {
             console.log('Error getting pop reminder: ', err.body.message);
         });
+    }
+
+    @api refreshComponent() {
+        refreshApex(this.refreshedRecords);
     }
 }
