@@ -36,6 +36,11 @@ export default class DynamicTable extends LightningElement {
         return records;
     }
 
+    @api
+    clearRows() {
+        this.rows = [{uuid: this.createUUID()}];
+    }
+
     fieldValues(cells) {
         return cells.reduce((record, cell) => { 
             let inputVal = cell.inputValue();

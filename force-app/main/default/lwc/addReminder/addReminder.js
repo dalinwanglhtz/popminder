@@ -31,6 +31,7 @@ export default class AddReminder extends LightningElement {
                 this.dispatchEvent(
                     new CustomEvent('remindercreated')
                 );
+                table.clearRows();
             })
             .catch(error => {
                 this.message = undefined;
