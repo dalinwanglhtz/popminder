@@ -1,4 +1,5 @@
 import { LightningElement, api, track, wire } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
 import getPopReminders from '@salesforce/apex/PopReminderController.getPopReminders';
 import deletePopReminder from '@salesforce/apex/PopReminderController.deleteReminder';
@@ -60,9 +61,21 @@ export default class ListReminders extends LightningElement {
         deletePopReminder({recordId: row.Id})
         .then(result => {
             console.log('Success Delete');
+            this.showToastMessage('Success', 'Reminder Deleted!', 'success');
+            refreshApex(this.refreshedRecords);
         })
         .catch(err => {
             console.log('Failed Delete');
         });
+    }
+
+    showToastMessage(title, message, variant) {
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: title,
+                message: message,
+                variant: variant
+            })
+        );
     }
 }
