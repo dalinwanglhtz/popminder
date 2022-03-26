@@ -8,6 +8,11 @@ export default class InputDateTimeCell extends LightningElement {
     value;
     label;
 
+    get todaysDate() {
+        let today = new Date();
+        return today;
+    }
+
     connectedCallback() {
         this.value = this.record[this.field];
         this.label = this.field;
