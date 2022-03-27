@@ -11,6 +11,7 @@ export default class AddReminder extends LightningElement {
     @track records;
     @api recordJson;
     @track columns=columns;
+
     submit(event) {
         var table = this.template.querySelector('c-dynamic-table');
         if(table != undefined) {
@@ -21,13 +22,7 @@ export default class AddReminder extends LightningElement {
             .then(result => { 
                 this.message = result;
                 this.error = undefined;
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Sucess',
-                        message: 'Reminders created',
-                        variant: 'success'
-                    })
-                );
+                this.showToastMessage('Success', 'Reminders created', 'success');
                 this.dispatchEvent(
                     new CustomEvent('remindercreated')
                 );
@@ -36,14 +31,18 @@ export default class AddReminder extends LightningElement {
             .catch(error => {
                 this.message = undefined;
                 this.error = error;
-                this.dispatchEvent(
-                    new ShowToastEvent({ 
-                        title: 'Error creating records',
-                        message: error.body.message,
-                        variant: 'error'
-                    })
-                );
+                this.showToastMessage('Error creating records', error.body.message, 'error');
             })
         }
+    }
+
+    showToastMessage(title, message, variant) {
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: title,
+                message: message,
+                variant: variant
+            })
+        );
     }
 }
