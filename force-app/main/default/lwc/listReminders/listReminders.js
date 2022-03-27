@@ -80,6 +80,12 @@ export default class ListReminders extends LightningElement {
         });
     }
 
+    handleShowHide() {
+        this.dispatchEvent(
+            new CustomEvent('triggershowhide')
+        );
+    }
+
     showToastMessage(title, message, variant) {
         this.dispatchEvent(
             new ShowToastEvent({

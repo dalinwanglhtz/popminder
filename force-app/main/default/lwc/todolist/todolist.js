@@ -5,6 +5,7 @@ import getPopUser from '@salesforce/apex/PopReminderController.getPopUser';
 
 export default class Todolist extends LightningElement {
     isPopUser;
+    toAddReminder = false;
     popUser;
     userName;
 
@@ -41,6 +42,10 @@ export default class Todolist extends LightningElement {
     handleReminderCreated() {
         let cmp = this.template.querySelector('c-list-reminders');
         cmp.refreshComponent();
+    }
+
+    handleShowHide() {
+        this.toAddReminder = !this.toAddReminder;
     }
 
     showToastMessage(title, message, variant) {

@@ -1,5 +1,8 @@
 <template>
     <lightning-card title={title} icon-name="custom:custom14">
+        <div slot="actions">
+            <lightning-button variant="base" label="Show/Hide Add Reminder" onclick={handleShowHide}></lightning-button>
+        </div>
         <div class="slds-var-m-around_small">
             <lightning-datatable
                 key-field="Id"

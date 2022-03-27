@@ -8,11 +8,11 @@
         <div class="slds-text-heading_medium">
             Hello!&nbsp;{userName}
         </div>
-        <div class="slds-var-m-top_small">
+        <div if:true={toAddReminder} class="slds-var-m-top_small">
             <c-add-reminder onremindercreated={handleReminderCreated}></c-add-reminder>
         </div>
         <div class="slds-var-m-top_small">
-            <c-list-reminders></c-list-reminders>
+            <c-list-reminders ontriggershowhide={handleShowHide}></c-list-reminders>
         </div>
     </div>
 </template>
