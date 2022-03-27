@@ -11,7 +11,18 @@ const actions = [
 const columns = [
     {label: 'Reminder Description', fieldName: 'Reminder_Description__c', editable: true},
     {label: 'Severity', fieldName: 'Severity__c', editable: true},
-    {label: 'Due Date', fieldName: 'Due_Date__c', editable: true},
+    {
+        label: 'Due Date', 
+        fieldName: 'Due_Date__c', 
+        type: 'date', 
+        typeAttributes: {
+            year: 'numeric',
+            month: 'long',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        },
+        editable: true},
     {label: 'Status', fieldName: 'Status__c', editable: false},
     {
         type: 'action',

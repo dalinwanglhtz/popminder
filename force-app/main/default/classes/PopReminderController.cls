@@ -44,6 +44,9 @@ public class PopReminderController {
         Pop_User__c pUser = getPopUser();
         if(!reminders.isEmpty()) {
             for(Pop_Reminder__c reminder: reminders) {
+                if(reminder.Due_Date__c < Date.today()) {
+                    throw new AuraHandledException('Due date cannot occur in the past for this reminder '+reminder.Reminder_Description__c);
+                }
             	reminder.Pop_User__c = pUser.Id;
         	}
             insert reminders;
