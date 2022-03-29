@@ -47,9 +47,17 @@ public class PopReminderController {
                 if(reminder.Due_Date__c < Date.today()) {
                     throw new AuraHandledException('Due date cannot occur in the past for this reminder '+reminder.Reminder_Description__c);
                 }
+                reminder.Status__c = 'Created';
             	reminder.Pop_User__c = pUser.Id;
         	}
-            insert reminders;
+            try{
+            	insert reminders;    
+            } catch (Exception e) {
+                if(e.getMessage().contains('REQUIRED_FIELD_MISSING')) {
+                	throw new AuraHandledException('Please complete all fields before submit.');    
+                }
+                throw new AuraHandledException(e.getMessage());
+            }
         }
     }
     
