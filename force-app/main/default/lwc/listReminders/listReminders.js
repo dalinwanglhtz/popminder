@@ -35,6 +35,7 @@ export default class ListReminders extends LightningElement {
     @track records = [];
     @track refreshedRecords = [];
     columns = columns;
+    error;
 
     @wire(getPopReminders)
     reminderList(result) {
@@ -52,11 +53,10 @@ export default class ListReminders extends LightningElement {
     connectedCallback() {
         getPopReminders()
         .then(result => {
-            console.log('Get Pop Reminder: ', result);
             this.records = result;
         })
         .catch(err => {
-            console.log('Error getting pop reminder: ', err.body.message);
+            this.error = err;
         });
     }
 
@@ -65,18 +65,15 @@ export default class ListReminders extends LightningElement {
     }
 
     handleRowAction(event) {
-        const actionName = event.detail.action.name;
+        //const actionName = event.detail.action.name;
         const row = event.detail.row;
-        console.log('Action Name: ', actionName);
-        console.log('Row ID: ', row.Id);
         deletePopReminder({recordId: row.Id})
         .then(result => {
-            console.log('Success Delete');
             this.showToastMessage('Success', 'Reminder Deleted!', 'success');
             refreshApex(this.refreshedRecords);
         })
         .catch(err => {
-            console.log('Failed Delete');
+            this.error = err;
         });
     }
 

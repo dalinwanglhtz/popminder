@@ -8,16 +8,15 @@ export default class Todolist extends LightningElement {
     toAddReminder = false;
     popUser;
     userName;
+    error;
 
     connectedCallback() {
         getPopUser()
         .then(result => {
-            console.log('Success: ', result.Persona__c);
             this.isPopUser = true;
             this.getCurrentUser();
         })
         .catch(error => {
-            console.log('Error: ',error.body.message);
             this.showToastMessage('Info', error.body.message, 'info');
             this.isPopUser = false;
         });
@@ -26,11 +25,10 @@ export default class Todolist extends LightningElement {
     getCurrentUser() {
         getUser()
         .then(output => {
-            console.log('User Name: ', output);
             this.userName = output.Name;
         })
         .catch(err => {
-            console.log('User error: ', err.message);
+            this.error = err;
         });
     }
 

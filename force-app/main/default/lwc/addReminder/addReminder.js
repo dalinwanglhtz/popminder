@@ -28,10 +28,10 @@ export default class AddReminder extends LightningElement {
                 );
                 table.clearRows();
             })
-            .catch(error => {
+            .catch(err => {
                 this.message = undefined;
-                this.error = error;
-                this.showToastMessage('Error creating records', error.body.message, 'error');
+                this.error = err;
+                this.showToastMessage('Error creating records', err.body.message, 'error');
             })
         }
     }
