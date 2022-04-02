@@ -3,6 +3,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
 import getPopReminders from '@salesforce/apex/PopReminderController.getPopReminders';
 import deletePopReminder from '@salesforce/apex/PopReminderController.deleteReminder';
+import updatePopReminder from '@salesforce/apex/PopReminderController.updateReminder';
 
 const actions = [
     {label: 'Delete', name: 'delete'}
@@ -36,6 +37,7 @@ export default class ListReminders extends LightningElement {
     @track refreshedRecords = [];
     columns = columns;
     error;
+    draftValues = [];
 
     @wire(getPopReminders)
     reminderList(result) {
@@ -81,6 +83,22 @@ export default class ListReminders extends LightningElement {
         this.dispatchEvent(
             new CustomEvent('triggershowhide')
         );
+    }
+
+    async handleSave(event) {
+        const updatedFields = event.detail.draftValues;
+
+        try {
+            await updatePopReminder({data: updatedFields});
+            this.showToastMessage('Success', 'Reminder(s) updated successfully', 'success');
+
+            refreshApex(this.refreshedRecords)
+            .then(() => {
+                this.draftValues = [];
+            });
+        } catch(error) {
+            this.showToastMessage('Error', error.body.message, 'error');
+        }
     }
 
     showToastMessage(title, message, variant) {

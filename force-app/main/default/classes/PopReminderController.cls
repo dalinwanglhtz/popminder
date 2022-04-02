@@ -62,6 +62,18 @@ public class PopReminderController {
     }
     
     @auraenabled
+    public static void updateReminder(Object data) {
+        List<Pop_Reminder__c> reminders = (List<Pop_Reminder__c>) JSON.deserialize(
+            JSON.serialize(data), 
+            List<Pop_Reminder__c>.class);
+        try {
+            update reminders;
+        } catch(Exception e) {
+            throw new AuraHandledException('Failed to update reminder(s). Due to: '+e.getMessage());
+        }
+    }
+    
+    @auraenabled
     public static void deleteReminder(String recordId) {
         Pop_Reminder__c pReminder = [
             SELECT Id, Name
