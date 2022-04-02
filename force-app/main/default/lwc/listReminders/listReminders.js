@@ -97,7 +97,7 @@ export default class ListReminders extends LightningElement {
                 this.draftValues = [];
             });
         } catch(error) {
-            this.showToastMessage('Error', error.body.message, 'error');
+            this.showToastMessage('Error', 'Update reminder(s) failed. Please make sure all fields are entered properly', 'error');
         }
     }
 
