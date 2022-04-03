@@ -101,12 +101,7 @@ public class PopReminderController {
     @AuraEnabled(cacheable=true)
     public static List<Pop_Reminder__c> getPopReminders(String userId) {
         Pop_User__c pUser = getPopUser();
-        return [
-            SELECT Id, Name, Reminder_Description__c, Due_Date__c, Severity__c, Status__c
-            FROM Pop_Reminder__c
-            WHERE Pop_User__c = :pUser.Id
-            ORDER BY Due_Date__c DESC
-        ];
+        return popReminderDAO.selectRemindersByUserId(pUser.Id);
     }
     
     private class AuraException extends Exception {}
