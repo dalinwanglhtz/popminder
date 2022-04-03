@@ -7,4 +7,20 @@ public class PopReminderDAOService implements PopReminderDAO {
             WHERE Persona__c = :UserInfo.getUserId()
         ];
     }
+    
+    public User getCurrentUser() {
+        return [
+            SELECT Id, Name, Email
+            FROM User
+            WHERE Id = :UserInfo.getUserId()
+        ];
+    }
+    
+    public Pop_Reminder__c selectReminderById(String recordId) {
+        return [
+            SELECT Id, Name
+            FROM Pop_Reminder__c
+            WHERE Id = :recordId
+        ];
+    }
 }

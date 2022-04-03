@@ -12,15 +12,11 @@ public class PopReminderController {
         }
     } 
 
-    @auraenabled
+    @AuraEnabled
     public static User getUser() {
         User user = new User();
         try {
-            user = [
-                SELECT Id, Name, Email
-                FROM User
-                WHERE Id = :UserInfo.getUserId()
-            ];
+            user = popReminderDAO.getCurrentUser();
         } catch (Exception e) {
             throw new AuraHandledException('User not found. ');
         }
@@ -28,7 +24,7 @@ public class PopReminderController {
         return user;
     }
     
-    @auraenabled
+    @AuraEnabled
     public static Pop_User__c getPopUser() {
         Pop_User__c pUser = new Pop_User__c();
         try {
@@ -39,7 +35,7 @@ public class PopReminderController {
         return pUser;
     }
     
-    @auraenabled
+    @AuraEnabled
     public static void createPopUser(String email) {
         Pop_User__c pUser = new Pop_User__c();
         pUser.Email__c = email;
@@ -47,7 +43,7 @@ public class PopReminderController {
         insert pUser;
     }
     
-    @auraenabled
+    @AuraEnabled
     public static void createReminders(List<Pop_Reminder__c> reminders) {
         Pop_User__c pUser = getPopUser();
         if(!reminders.isEmpty()) {
@@ -69,7 +65,7 @@ public class PopReminderController {
         }
     }
     
-    @auraenabled
+    @AuraEnabled
     public static void updateReminder(Object data) {
         List<Pop_Reminder__c> reminders = (List<Pop_Reminder__c>) JSON.deserialize(
             JSON.serialize(data), 
@@ -81,17 +77,13 @@ public class PopReminderController {
         }
     }
     
-    @auraenabled
+    @AuraEnabled
     public static void deleteReminder(String recordId) {
-        Pop_Reminder__c pReminder = [
-            SELECT Id, Name
-            FROM Pop_Reminder__c
-            WHERE Id = :recordId
-        ];
+        Pop_Reminder__c pReminder = popReminderDAO.selectReminderById(recordId);
         delete pReminder;
     }
     
-    @auraenabled(cacheable=true)
+    @AuraEnabled(cacheable=true)
     public static List<String> getPickList(String objectName, String fieldName) {
         List<String> values = new List<String>();
         List<Schema.DescribeSObjectResult> results = Schema.describeSObjects(new List<String> {objectName});
@@ -106,7 +98,7 @@ public class PopReminderController {
         return values;
     }
     
-    @auraenabled(cacheable=true)
+    @AuraEnabled(cacheable=true)
     public static List<Pop_Reminder__c> getPopReminders(String userId) {
         Pop_User__c pUser = getPopUser();
         return [
