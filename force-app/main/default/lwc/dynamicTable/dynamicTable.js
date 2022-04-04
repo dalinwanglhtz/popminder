@@ -1,4 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
+import getPopUser from '@salesforce/apex/PopReminderController.getPopUser';
 
 export default class DynamicTable extends LightningElement {
     @api columnList;
@@ -7,12 +8,22 @@ export default class DynamicTable extends LightningElement {
     @track objectApiName;
     @track pickListValues;
     @track rows = [{uuid: this.createUUID()}];
+    error;
+    popUser;
 
     connectedCallback() {
         let cleanedColumnList = this.columnList[0] === '\\' ? this.columnList.subString(1) : this.columnList;
         if(cleanedColumnList) {
             this.columns = cleanedColumnList;
         }
+        getPopUser()
+        .then(result => {
+            console.log('pUser: ', result);
+            this.popUser = result;
+        })
+        .catch(err => {
+            this.error = err;
+        })
     }
 
     createUUID() { 
@@ -30,6 +41,7 @@ export default class DynamicTable extends LightningElement {
             let texts = Array.from(row.querySelectorAll('.fields'));
             if(texts) { 
                 var textVal = this.fieldValues(texts);
+                textVal.Pop_User__c = this.popUser.Id;
                 records = [...records, textVal];
             }
         });

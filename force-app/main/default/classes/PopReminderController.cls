@@ -45,18 +45,17 @@ public class PopReminderController {
     
     @AuraEnabled
     public static void createReminders(List<Pop_Reminder__c> reminders) {
-        Pop_User__c pUser = getPopUser();
         if(!reminders.isEmpty()) {
             for(Pop_Reminder__c reminder: reminders) {
                 if(reminder.Due_Date__c < Date.today()) {
                     throw new AuraHandledException('Due date cannot occur in the past for this reminder '+reminder.Reminder_Description__c);
                 }
                 reminder.Status__c = 'Created';
-            	reminder.Pop_User__c = pUser.Id;
         	}
             try{
             	insert reminders;    
             } catch (Exception e) {
+                System.debug('Message: '+e.getMessage());
                 if(e.getMessage().contains('REQUIRED_FIELD_MISSING')) {
                 	throw new AuraHandledException('Please complete all fields before submit.');    
                 }
