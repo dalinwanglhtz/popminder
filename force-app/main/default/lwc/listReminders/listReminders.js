@@ -89,7 +89,7 @@ export default class ListReminders extends LightningElement {
         const updatedFields = event.detail.draftValues;
 
         try {
-            await updatePopReminder({data: updatedFields});
+            await updatePopReminder({reminders: updatedFields});
             this.showToastMessage('Success', 'Reminder(s) updated successfully', 'success');
 
             refreshApex(this.refreshedRecords)

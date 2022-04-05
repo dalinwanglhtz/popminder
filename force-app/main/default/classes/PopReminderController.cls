@@ -55,7 +55,6 @@ public class PopReminderController {
             try{
             	insert reminders;    
             } catch (Exception e) {
-                System.debug('Message: '+e.getMessage());
                 if(e.getMessage().contains('REQUIRED_FIELD_MISSING')) {
                 	throw new AuraHandledException('Please complete all fields before submit.');    
                 }
@@ -65,10 +64,7 @@ public class PopReminderController {
     }
     
     @AuraEnabled
-    public static void updateReminder(Object data) {
-        List<Pop_Reminder__c> reminders = (List<Pop_Reminder__c>) JSON.deserialize(
-            JSON.serialize(data), 
-            List<Pop_Reminder__c>.class);
+    public static void updateReminder(List<Pop_Reminder__c> reminders) {
         try {
             update reminders;
         } catch(Exception e) {
