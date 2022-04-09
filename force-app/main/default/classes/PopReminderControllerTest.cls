@@ -52,13 +52,7 @@ public class PopReminderControllerTest {
     static void testCreateReminders() {
         PopReminderController.popReminderDAO = new MockPopReminderDAOServiceImpl();
         
-        Pop_User__c pUser = [
-            SELECT Id, Name, Email__C
-            FROM Pop_User__c
-            LIMIT 1
-        ];
-        
-        List<Pop_Reminder__c> reminders = createPopReminders(pUser, 2);
+        List<Pop_Reminder__c> reminders = createPopReminders(2);
         
         Test.startTest();
         PopReminderController.createReminders(reminders);
@@ -74,13 +68,7 @@ public class PopReminderControllerTest {
     
     @IsTest
     static void testUpdateReminders() {
-        Pop_User__c pUser = [
-            SELECT Id, Name
-            FROM Pop_User__c
-            LIMIT 1
-        ];
-        
-        List<Pop_Reminder__c> reminders = createPopReminders(pUser, 2);
+        List<Pop_Reminder__c> reminders = createPopReminders(2);
         insert reminders;
         
         List<Pop_Reminder__c> reminders2Update = [
@@ -112,13 +100,7 @@ public class PopReminderControllerTest {
     
     @IsTest
     static void testDeleteReminder() {
-        Pop_User__c pUser = [
-            SELECT Id, Name
-            FROM Pop_User__c
-            LIMIT 1
-        ];
-        
-        Pop_Reminder__c pReminder = createPopReminders(pUser, 1)[0];
+        Pop_Reminder__c pReminder = createPopReminders(1)[0];
         insert pReminder;
         
         Id reminderId = pReminder.Id;
@@ -154,13 +136,9 @@ public class PopReminderControllerTest {
     
     @IsTest
     static void testGetPopReminders() {
-        Pop_User__c pUser = [
-            SELECT Id, Name
-            FROM Pop_User__c
-            LIMIT 1
-        ];
+        Pop_User__c pUser = getPopReminderUser();
         
-        List<Pop_Reminder__c> reminders = createPopReminders(pUser, 2);
+        List<Pop_Reminder__c> reminders = createPopReminders(2);
         insert reminders;
         
         Test.startTest();
@@ -171,14 +149,24 @@ public class PopReminderControllerTest {
         
     }
     
-    private static List<Pop_Reminder__c> createPopReminders(Pop_User__c user, Integer numOfReminders) {
+    private static Pop_User__c getPopReminderUser() {
+        return [
+            SELECT Id, Name
+            FROM Pop_User__c
+            LIMIT 1
+        ];
+    }
+    
+    private static List<Pop_Reminder__c> createPopReminders(Integer numOfReminders) {
+        Pop_User__c pUser = getPopReminderUser();
+        
         List<Pop_Reminder__c> reminders = new List<Pop_Reminder__c>();
         for(Integer i=0; i<numOfReminders; i++) {
             Pop_Reminder__c pReminder = new Pop_Reminder__c();
             pReminder.Reminder_Description__c = 'test '+i;
             pReminder.Severity__c = 'High';
             pReminder.Due_Date__c = Date.today();
-            pReminder.Pop_User__c = user.Id;
+            pReminder.Pop_User__c = pUser.Id;
             reminders.add(pReminder);
         }
         
