@@ -160,6 +160,45 @@ public class PopReminderControllerTest {
         System.assertEquals(true, hasException, 'Should throw exception.');
     }
     
+    @IsTest
+    static void testGetPickList() {
+        String testObject = 'Case';
+        String testField = 'Reason';
+        
+        Test.startTest();
+        List<String> resultPicklists = PopReminderController.getPickList(testObject, testField);
+        Test.stopTest();
+        
+        System.assert(resultPicklists.size() > 0, 'Picklists should return.');
+    }
+    
+    @IsTest
+    static void testGetPopReminders() {
+        Pop_User__c pUser = [
+            SELECT Id, Name
+            FROM Pop_User__c
+            LIMIT 1
+        ];
+        
+        List<Pop_Reminder__c> reminders = new List<Pop_Reminder__c>();
+        for(Integer i=0; i<2; i++) {
+            Pop_Reminder__c pReminder = new Pop_Reminder__c();
+            pReminder.Reminder_Description__c = 'test '+i;
+            pReminder.Severity__c = 'High';
+            pReminder.Due_Date__c = Date.today();
+            pReminder.Pop_User__c = pUser.Id;
+            reminders.add(pReminder);
+        }
+        insert reminders;
+        
+        Test.startTest();
+        List<Pop_Reminder__c> results = PopReminderController.getPopReminders(pUser.Id);
+        Test.stopTest();
+        
+        System.assertEquals(2, results.size(), 'Should return list of reminders.');
+        
+    }
+    
     public class MockPopReminderDAOServiceImpl extends MockPopReminderDAOService {
 
         public override User getCurrentUser() {
