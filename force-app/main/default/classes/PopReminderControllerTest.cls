@@ -58,15 +58,7 @@ public class PopReminderControllerTest {
             LIMIT 1
         ];
         
-        List<Pop_Reminder__c> reminders = new List<Pop_Reminder__c>();
-        for(Integer i=0; i<2; i++) {
-            Pop_Reminder__c pReminder = new Pop_Reminder__c();
-            pReminder.Reminder_Description__c = 'test '+i;
-            pReminder.Severity__c = 'High';
-            pReminder.Due_Date__c = Date.today();
-            pReminder.Pop_User__c = pUser.Id;
-            reminders.add(pReminder);
-        }
+        List<Pop_Reminder__c> reminders = createPopReminders(pUser, 2);
         
         Test.startTest();
         PopReminderController.createReminders(reminders);
@@ -88,15 +80,7 @@ public class PopReminderControllerTest {
             LIMIT 1
         ];
         
-        List<Pop_Reminder__c> reminders = new List<Pop_Reminder__c>();
-        for(Integer i=0; i<2; i++) {
-            Pop_Reminder__c pReminder = new Pop_Reminder__c();
-            pReminder.Reminder_Description__c = 'test '+i;
-            pReminder.Severity__c = 'High';
-            pReminder.Due_Date__c = Date.today();
-            pReminder.Pop_User__c = pUser.Id;
-            reminders.add(pReminder);
-        }
+        List<Pop_Reminder__c> reminders = createPopReminders(pUser, 2);
         insert reminders;
         
         List<Pop_Reminder__c> reminders2Update = [
@@ -134,11 +118,7 @@ public class PopReminderControllerTest {
             LIMIT 1
         ];
         
-        Pop_Reminder__c pReminder = new Pop_Reminder__c();
-        pReminder.Reminder_Description__c = 'test';
-        pReminder.Severity__c = 'High';
-        pReminder.Due_Date__c = Date.today();
-        pReminder.Pop_User__c = pUser.Id;
+        Pop_Reminder__c pReminder = createPopReminders(pUser, 1)[0];
         insert pReminder;
         
         Id reminderId = pReminder.Id;
@@ -180,15 +160,7 @@ public class PopReminderControllerTest {
             LIMIT 1
         ];
         
-        List<Pop_Reminder__c> reminders = new List<Pop_Reminder__c>();
-        for(Integer i=0; i<2; i++) {
-            Pop_Reminder__c pReminder = new Pop_Reminder__c();
-            pReminder.Reminder_Description__c = 'test '+i;
-            pReminder.Severity__c = 'High';
-            pReminder.Due_Date__c = Date.today();
-            pReminder.Pop_User__c = pUser.Id;
-            reminders.add(pReminder);
-        }
+        List<Pop_Reminder__c> reminders = createPopReminders(pUser, 2);
         insert reminders;
         
         Test.startTest();
@@ -197,6 +169,20 @@ public class PopReminderControllerTest {
         
         System.assertEquals(2, results.size(), 'Should return list of reminders.');
         
+    }
+    
+    private static List<Pop_Reminder__c> createPopReminders(Pop_User__c user, Integer numOfReminders) {
+        List<Pop_Reminder__c> reminders = new List<Pop_Reminder__c>();
+        for(Integer i=0; i<numOfReminders; i++) {
+            Pop_Reminder__c pReminder = new Pop_Reminder__c();
+            pReminder.Reminder_Description__c = 'test '+i;
+            pReminder.Severity__c = 'High';
+            pReminder.Due_Date__c = Date.today();
+            pReminder.Pop_User__c = user.Id;
+            reminders.add(pReminder);
+        }
+        
+        return reminders;
     }
     
     public class MockPopReminderDAOServiceImpl extends MockPopReminderDAOService {
