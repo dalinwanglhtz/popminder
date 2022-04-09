@@ -14,7 +14,7 @@ public class PopReminderController {
 
     @AuraEnabled
     public static User getUser() {
-        User user = new User();
+        User user;
         try {
             user = popReminderDAO.getCurrentUser();
         } catch (Exception e) {
@@ -26,7 +26,7 @@ public class PopReminderController {
     
     @AuraEnabled
     public static Pop_User__c getPopUser() {
-        Pop_User__c pUser = new Pop_User__c();
+        Pop_User__c pUser;
         try {
             pUser = popReminderDAO.getPopReminderUser();
         } catch(Exception e) {
