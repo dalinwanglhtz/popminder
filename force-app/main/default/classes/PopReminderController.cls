@@ -46,12 +46,8 @@ public class PopReminderController {
     @AuraEnabled
     public static void createReminders(List<Pop_Reminder__c> reminders) {
         if(!reminders.isEmpty()) {
-            for(Pop_Reminder__c reminder: reminders) {
-                if(reminder.Due_Date__c < Date.today()) {
-                    throw new AuraHandledException('Due date cannot occur in the past for this reminder '+reminder.Reminder_Description__c);
-                }
-                reminder.Status__c = 'Created';
-        	}
+            checkReminderDueDate(reminders);
+            updateRemindersStatus(reminders);
             try{
             	insert reminders;    
             } catch (Exception e) {
@@ -97,6 +93,20 @@ public class PopReminderController {
     public static List<Pop_Reminder__c> getPopReminders(String userId) {
         Pop_User__c pUser = getPopUser();
         return popReminderDAO.selectRemindersByUserId(pUser.Id);
+    }
+    
+    private static void checkReminderDueDate(List<Pop_Reminder__c> reminders) {
+        for(Pop_Reminder__c reminder: reminders) {
+            if(reminder.Due_Date__c < Date.today()) {
+                throw new AuraHandledException('Due date cannot occur in the past for this reminder '+reminder.Reminder_Description__c);
+            }
+        }
+    }
+    
+    private static void updateRemindersStatus(List<Pop_Reminder__c> reminders) {
+        for(Pop_Reminder__c reminder: reminders) {
+            reminder.Status__c = 'Created';
+        }
     }
     
     private class AuraException extends Exception {}

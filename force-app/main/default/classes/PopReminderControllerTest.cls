@@ -52,7 +52,7 @@ public class PopReminderControllerTest {
     static void testCreateReminders() {
         PopReminderController.popReminderDAO = new MockPopReminderDAOServiceImpl();
         
-        List<Pop_Reminder__c> reminders = createPopReminders(2);
+        List<Pop_Reminder__c> reminders = createPopReminders(2, false);
         
         Test.startTest();
         PopReminderController.createReminders(reminders);
@@ -67,8 +67,26 @@ public class PopReminderControllerTest {
     }
     
     @IsTest
+    static void testCreateRemindersFailed() {
+        PopReminderController.popReminderDAO = new MockPopReminderDAOServiceImpl();
+        
+        List<Pop_Reminder__c> reminders = createPopReminders(2, true);
+        
+        Test.startTest();
+        Boolean hasException = false;
+        try {
+        	PopReminderController.createReminders(reminders);    
+        } catch(Exception e) {
+            hasException = true;
+        }
+        Test.stopTest();
+        
+        System.assert(hasException, 'Should throw exception.');
+    }
+    
+    @IsTest
     static void testUpdateReminders() {
-        List<Pop_Reminder__c> reminders = createPopReminders(2);
+        List<Pop_Reminder__c> reminders = createPopReminders(2, false);
         insert reminders;
         
         List<Pop_Reminder__c> reminders2Update = [
@@ -100,7 +118,7 @@ public class PopReminderControllerTest {
     
     @IsTest
     static void testDeleteReminder() {
-        Pop_Reminder__c pReminder = createPopReminders(1)[0];
+        Pop_Reminder__c pReminder = createPopReminders(1, false)[0];
         insert pReminder;
         
         Id reminderId = pReminder.Id;
@@ -138,7 +156,7 @@ public class PopReminderControllerTest {
     static void testGetPopReminders() {
         Pop_User__c pUser = getPopReminderUser();
         
-        List<Pop_Reminder__c> reminders = createPopReminders(2);
+        List<Pop_Reminder__c> reminders = createPopReminders(2, false);
         insert reminders;
         
         Test.startTest();
@@ -157,14 +175,14 @@ public class PopReminderControllerTest {
         ];
     }
     
-    private static List<Pop_Reminder__c> createPopReminders(Integer numOfReminders) {
+    private static List<Pop_Reminder__c> createPopReminders(Integer numOfReminders, Boolean triggerException) {
         Pop_User__c pUser = getPopReminderUser();
         
         List<Pop_Reminder__c> reminders = new List<Pop_Reminder__c>();
         for(Integer i=0; i<numOfReminders; i++) {
             Pop_Reminder__c pReminder = new Pop_Reminder__c();
             pReminder.Reminder_Description__c = 'test '+i;
-            pReminder.Severity__c = 'High';
+            pReminder.Severity__c = triggerException ? null : 'High';
             pReminder.Due_Date__c = Date.today();
             pReminder.Pop_User__c = pUser.Id;
             reminders.add(pReminder);
