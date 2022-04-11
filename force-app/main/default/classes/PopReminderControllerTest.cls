@@ -32,6 +32,28 @@ public class PopReminderControllerTest {
     }
     
     @IsTest
+    static void testGetPopReminderUserFailed() {
+        Pop_User__c pUser = [
+            SELECT Id
+            FROM Pop_User__c
+            WHERE Persona__c = :UserInfo.getUserId()
+        ];
+        
+        delete pUser;
+        
+        Test.startTest();
+        Boolean hasException = false;
+        try {
+            pUser = PopReminderController.getPopUser();
+        } catch (Exception e) {
+            hasException = true;
+        }
+        Test.stopTest();
+        
+        System.assert(hasException, 'Should throw exception.');        
+    }
+    
+    @IsTest
     static void testCreatePopUser() {
         String testEmail = 'dale@email.com';
         
