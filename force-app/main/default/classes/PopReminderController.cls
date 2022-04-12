@@ -74,7 +74,7 @@ public class PopReminderController {
         delete pReminder;
     }
     
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
     public static List<String> getPickList(String objectName, String fieldName) {
         List<String> values = new List<String>();
         List<Schema.DescribeSObjectResult> results = Schema.describeSObjects(new List<String> {objectName});
@@ -89,7 +89,7 @@ public class PopReminderController {
         return values;
     }
     
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
     public static List<Pop_Reminder__c> getPopReminders(String userId) {
         Pop_User__c pUser = getPopUser();
         return popReminderDAO.selectRemindersByUserId(pUser.Id);
