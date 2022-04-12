@@ -89,7 +89,7 @@ public class PopReminderController {
         return values;
     }
     
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static List<Pop_Reminder__c> getPopReminders(String userId) {
         Pop_User__c pUser = getPopUser();
         return popReminderDAO.selectRemindersByUserId(pUser.Id);
