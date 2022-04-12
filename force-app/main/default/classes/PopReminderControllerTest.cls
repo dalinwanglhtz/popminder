@@ -118,7 +118,7 @@ public class PopReminderControllerTest {
         ];
         
         for(Pop_Reminder__c pReminder : reminders2Update) {
-            pReminder.Severity__c = 'Low';
+            pReminder.Severity__c = PopReminderConstant.LOW_SEVERITY;
         }
 
         Test.startTest();
@@ -133,7 +133,7 @@ public class PopReminderControllerTest {
         
         System.assertEquals(2, results.size(), 'There should be 2 results returned');
         for(Pop_Reminder__c pReminder: results) {
-            System.assertEquals('Low', pReminder.Severity__c, 'Reminder severity should be low.');
+            System.assertEquals(PopReminderConstant.LOW_SEVERITY, pReminder.Severity__c, 'Reminder severity should be low.');
         }
         
     }
@@ -204,7 +204,7 @@ public class PopReminderControllerTest {
         for(Integer i=0; i<numOfReminders; i++) {
             Pop_Reminder__c pReminder = new Pop_Reminder__c();
             pReminder.Reminder_Description__c = 'test '+i;
-            pReminder.Severity__c = triggerException ? null : 'High';
+            pReminder.Severity__c = triggerException ? null : PopReminderConstant.HIGH_SEVERITY;
             pReminder.Due_Date__c = Date.today();
             pReminder.Pop_User__c = pUser.Id;
             reminders.add(pReminder);
