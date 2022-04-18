@@ -9,6 +9,7 @@ trigger PopReminderTrigger on Pop_Reminder__c (after insert) {
         
         ScheduleWork sw = new ScheduleWork();
         sw.setEmailToAddress(pUser.Email__c);
+        sw.setEmailSubject('Reminder for action!!');
         sw.setEmailBody(pReminder.Reminder_Description__c);
         Datetime scheduleTime = pReminder.Due_Date__c;
         String schCronExp = scheduleTime.format('s m H d M \'?\' yyyy');
