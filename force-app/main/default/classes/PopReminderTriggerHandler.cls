@@ -20,7 +20,7 @@ public class PopReminderTriggerHandler {
             sw.setEmailBody(pReminder.Reminder_Description__c);
             Datetime scheduleTime = pReminder.Due_Date__c;
             String schCronExp = scheduleTime.format('s m H d M \'?\' yyyy');
-            System.schedule('Reminder '+scheduleTime.format(), schCronExp, sw);
+            System.schedule('Reminder '+pReminder.Id, schCronExp, sw);
         }
     }
 }
