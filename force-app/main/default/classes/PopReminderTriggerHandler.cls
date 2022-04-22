@@ -23,4 +23,22 @@ public class PopReminderTriggerHandler {
             System.schedule('Reminder '+pReminder.Id, schCronExp, sw);
         }
     }
+    
+    public static void afterDelete(List<Pop_Reminder__c> oldRecords) {
+        Set<String> jobNames = new Set<String>();
+        for(Pop_Reminder__c pReminder: oldRecords) {
+            jobNames.add('Reminder '+pReminder.Id);
+        }
+        
+        List<CronTrigger> cTriggers = [
+            SELECT Id
+            FROM CronTrigger
+            WHERE CronJobDetail.JobType = '7' // Scheduled Apex
+            AND CronJobDetail.Name IN :jobNames
+        ];
+        
+        for(CronTrigger cTrigger: cTriggers) {
+            System.abortJob(cTrigger.Id);
+        }
+    }
 }
