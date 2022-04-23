@@ -33,7 +33,7 @@ public class PopReminderTriggerHandler {
         List<CronTrigger> cTriggers = [
             SELECT Id
             FROM CronTrigger
-            WHERE CronJobDetail.JobType = '7' // Scheduled Apex
+            WHERE CronJobDetail.JobType = '7' // 7 for Scheduled Apex
             AND CronJobDetail.Name IN :jobNames
         ];
         
