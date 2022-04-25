@@ -13,14 +13,7 @@ public class PopReminderTriggerHandler {
         ]);
     
         for(Pop_Reminder__c pReminder: newRecords) {
-            Pop_User__c pUser = pUserMap.get(pReminder.Pop_User__c);
-            ScheduleWork sw = new ScheduleWork();
-            sw.setEmailToAddress(pUser.Email__c);
-            sw.setEmailSubject('Reminder for action!!');
-            sw.setEmailBody(pReminder.Reminder_Description__c);
-            Datetime scheduleTime = pReminder.Due_Date__c;
-            String schCronExp = scheduleTime.format('s m H d M \'?\' yyyy');
-            System.schedule('Reminder '+pReminder.Id, schCronExp, sw);
+			PopReminderUtil.scheduleReminder(pReminder, pUserMap);
         }
     }
     
