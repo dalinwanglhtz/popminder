@@ -205,7 +205,7 @@ public class PopReminderControllerTest {
             Pop_Reminder__c pReminder = new Pop_Reminder__c();
             pReminder.Reminder_Description__c = 'test '+i;
             pReminder.Severity__c = triggerException ? null : PopReminderConstant.HIGH_SEVERITY;
-            pReminder.Due_Date__c = Date.today();
+            pReminder.Due_Date__c = Datetime.now().addMinutes(2);
             pReminder.Pop_User__c = pUser.Id;
             reminders.add(pReminder);
         }
