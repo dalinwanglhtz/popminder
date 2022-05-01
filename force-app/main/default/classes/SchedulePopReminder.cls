@@ -1,6 +1,6 @@
 // SchedulePopReminder sw = new SchedulePopReminder();
-// run every 30 min
-// String sch = '0 30 * * * ? *';
+// run 7 am every day
+// String sch = '0 0 07 * * ? *';
 // System.schedule('Testing11', sch, sw);
 global class SchedulePopReminder implements Schedulable {
 
@@ -11,7 +11,6 @@ global class SchedulePopReminder implements Schedulable {
             FROM Pop_Reminder__c
             WHERE Due_Date__c <= :Datetime.now().addDays(2)
         ];
-        System.debug('Run with '+reminders.size()+' reminders');
         for(Pop_Reminder__c pReminder: reminders) {
             if(pReminder.Due_Date__c <= Datetime.now()) {
             	pReminder.Status__c = 'Due';    
