@@ -11,13 +11,7 @@ public class ProcessPopReminder implements Database.Batchable<sObject> {
     
     public void execute(Database.BatchableContext BC, List<Pop_Reminder__c> scope) {
         for(Pop_Reminder__c pReminder: scope) {
-            if(pReminder.Due_Date__c <= Datetime.now()) {
-            	pReminder.Status__c = 'Due';    
-            } else if(pReminder.Due_Date__c <= Datetime.now().addDays(1) && pReminder.Due_Date__c > Datetime.now()) {
-                pReminder.Status__c = 'Almost Due';
-            } else if(pReminder.Due_Date__c <= Datetime.now().addDays(2) && pReminder.Due_Date__c > Datetime.now().addDays(1)) {
-                pReminder.Status__c = 'Counting Down';
-            }
+            PopReminderUtil.updateStatus(pReminder);
             PopReminderUtil.sendEmail(
                 pReminder.Pop_User__r.Email__c, 
                 'Reminder for action', 

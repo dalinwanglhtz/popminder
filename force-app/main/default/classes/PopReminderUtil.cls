@@ -37,4 +37,14 @@ public class PopReminderUtil {
         String schCronExp = scheduleTime.format('s m H d M \'?\' yyyy');
         System.schedule('Reminder '+pReminder.Id, schCronExp, sw);
     }
+    
+    public static void updateStatus(Pop_Reminder__c reminder) {
+        if(reminder.Due_Date__c <= Datetime.now()) {
+            reminder.Status__c = PopReminderConstant.REMINDER_DUE;    
+        } else if(reminder.Due_Date__c <= Datetime.now().addDays(1) && reminder.Due_Date__c > Datetime.now()) {
+            reminder.Status__c = PopReminderConstant.REMINDER_ALMOST_DUE;
+        } else if(reminder.Due_Date__c <= Datetime.now().addDays(2) && reminder.Due_Date__c > Datetime.now().addDays(1)) {
+            reminder.Status__c = PopReminderConstant.REMINDER_COUNTING_DOWN;
+        }
+    }
 }
