@@ -39,11 +39,15 @@ public class PopReminderUtil {
     }
     
     public static void updateStatus(Pop_Reminder__c reminder) {
-        if(reminder.Due_Date__c <= Datetime.now()) {
+        if(reminder.Due_Date__c <= Datetime.now() && reminder.Status__c != PopReminderConstant.REMINDER_DUE) {
             reminder.Status__c = PopReminderConstant.REMINDER_DUE;    
-        } else if(reminder.Due_Date__c <= Datetime.now().addDays(1) && reminder.Due_Date__c > Datetime.now()) {
+        } else if(reminder.Due_Date__c <= Datetime.now().addDays(1) && 
+                  reminder.Due_Date__c > Datetime.now() &&
+                  reminder.Status__c != PopReminderConstant.REMINDER_ALMOST_DUE) {
             reminder.Status__c = PopReminderConstant.REMINDER_ALMOST_DUE;
-        } else if(reminder.Due_Date__c <= Datetime.now().addDays(2) && reminder.Due_Date__c > Datetime.now().addDays(1)) {
+        } else if(reminder.Due_Date__c <= Datetime.now().addDays(2) && 
+                  reminder.Due_Date__c > Datetime.now().addDays(1) &&
+                  reminder.Status__c != PopReminderConstant.REMINDER_COUNTING_DOWN) {
             reminder.Status__c = PopReminderConstant.REMINDER_COUNTING_DOWN;
         }
     }
