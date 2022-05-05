@@ -10,7 +10,7 @@ const actions = [
 ];
 
 const columns = [
-    {label: 'Reminder Description', fieldName: 'Reminder_Description__c', editable: true},
+    {label: 'Reminder Description', fieldName: 'Reminder_Description__c', editable: true, initialWidth: 700},
     {label: 'Severity', fieldName: 'Severity__c', editable: true},
     {
         label: 'Due Date', 
