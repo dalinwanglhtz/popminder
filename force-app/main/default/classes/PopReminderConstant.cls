@@ -1,5 +1,5 @@
 public class PopReminderConstant {
-
+	public static final Integer PROCESS_REMINDER_BATCH_SIZE = 20;
     public static final String HIGH_SEVERITY = 'High';
     public static final String LOW_SEVERITY = 'Low';
     public static final String REMINDER_DUE = 'Due';

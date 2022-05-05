@@ -11,6 +11,6 @@ global class SchedulePopReminder implements Schedulable {
         String fromClause = 'FROM Pop_Reminder__c';
         String whereClause = 'WHERE Due_Date__c <= '+formatedDt;
         String query = selectClause + ' ' + fromClause + ' ' + whereClause;
-        Id batchInstanceId = Database.executeBatch(new ProcessPopReminder(query), 2);
+        Id batchInstanceId = Database.executeBatch(new ProcessPopReminder(query), PopReminderConstant.PROCESS_REMINDER_BATCH_SIZE);
     }
 }
