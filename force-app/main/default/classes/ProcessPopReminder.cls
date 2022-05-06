@@ -11,12 +11,14 @@ public class ProcessPopReminder implements Database.Batchable<sObject> {
     
     public void execute(Database.BatchableContext BC, List<Pop_Reminder__c> scope) {
         Map<String, String> emailsToSend = new Map<String, String>();
+        String dateFormat = 'yyyy-MM-dd HH:mm:ss';
         for(Pop_Reminder__c pReminder: scope) {
             PopReminderUtil.updateStatus(pReminder);
             String currentDescription = emailsToSend.get(pReminder.Pop_User__r.Email__c);
-            String emailBody = emailsToSend.get(pReminder.Pop_User__r.Email__c) != null ? 
-                currentDescription + pReminder.Reminder_Description__c + ' and it is '+pReminder.Status__c+'!'+'<br/>' : 
-            	pReminder.Reminder_Description__c + ' and it is '+pReminder.Status__c+'!'+'<br/>';
+            String emailBody = PopReminderUtil.processDescription(
+                currentDescription, 
+                pReminder.Due_Date__c.format(dateFormat) + ' - ' + pReminder.Reminder_Description__c + ' and it is <b>'+pReminder.Status__c+'!</b>'
+            );
             emailsToSend.put(pReminder.Pop_User__r.Email__c, emailBody);
         }
         

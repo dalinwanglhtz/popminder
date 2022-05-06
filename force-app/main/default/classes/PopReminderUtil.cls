@@ -51,4 +51,17 @@ public class PopReminderUtil {
             reminder.Status__c = PopReminderConstant.REMINDER_COUNTING_DOWN;
         }
     }
+    
+    public static String processDescription(String currDescription, String newDescription) {
+        String finalDescription;
+        String token = '<li>'+newDescription+'</li>';
+        if(currDescription == null) {
+            finalDescription = '<h2>The following items are due or about to due. Please action!</h2>';
+            finalDescription += '<ol>'+token+'</ol>';
+        } else {
+            finalDescription = currDescription.substringBeforeLast('</ol>') + token + '</ol>';
+        }
+        
+        return finalDescription;
+    }
 }
