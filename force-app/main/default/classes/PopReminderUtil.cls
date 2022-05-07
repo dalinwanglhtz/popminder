@@ -54,12 +54,19 @@ public class PopReminderUtil {
     
     public static String processDescription(String currDescription, String newDescription) {
         String finalDescription;
-        String token = '<li>'+newDescription+'</li>';
+        String token = '<tr>'+newDescription+'</tr>';
         if(currDescription == null) {
+            finalDescription += '<!DOCTYPE html>' +
+					'<html><head><style>' +
+					'table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}' +
+					'td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}' +
+					'tr:nth-child(even) {background-color: #dddddd;}' +
+					'</style></head><body>';
             finalDescription = '<h3>The following items are due or about to due. Please action!</h3>';
-            finalDescription += '<ol>'+token+'</ol>';
+            finalDescription += '<table><tr><th>Due Date</th><th>Description</th><th>Status</th><th>Severity</th></tr>';
+            finalDescription += token + '</table></body></html>';
         } else {
-            finalDescription = currDescription.substringBeforeLast('</ol>') + token + '</ol>';
+            finalDescription = currDescription.substringBeforeLast('</table>') + token + '</table>';
         }
         
         return finalDescription;

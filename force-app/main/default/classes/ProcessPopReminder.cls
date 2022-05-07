@@ -17,10 +17,10 @@ public class ProcessPopReminder implements Database.Batchable<sObject> {
             String currentDescription = emailsToSend.get(pReminder.Pop_User__r.Email__c);
             String emailBody = PopReminderUtil.processDescription(
                 currentDescription, 
-                pReminder.Due_Date__c.format(dateFormat) + ' - ' + 
-                pReminder.Reminder_Description__c + 
-                ' - (<b>'+pReminder.Status__c+'</b>) - (<b>' +
-                pReminder.Severity__c + '</b>)'
+                '<td>' + pReminder.Due_Date__c.format(dateFormat) + '</td>' + 
+                '<td>' + pReminder.Reminder_Description__c + '</td>' +
+                '<td><b>' + pReminder.Status__c + '</b></td>' +
+                '<td><b>' + pReminder.Severity__c + '</b></td>'
             );
             emailsToSend.put(pReminder.Pop_User__r.Email__c, emailBody);
         }
