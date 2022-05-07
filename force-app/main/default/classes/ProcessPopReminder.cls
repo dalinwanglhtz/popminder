@@ -17,7 +17,9 @@ public class ProcessPopReminder implements Database.Batchable<sObject> {
             String currentDescription = emailsToSend.get(pReminder.Pop_User__r.Email__c);
             String emailBody = PopReminderUtil.processDescription(
                 currentDescription, 
-                pReminder.Due_Date__c.format(dateFormat) + ' - ' + pReminder.Reminder_Description__c + ' and it is <b>'+pReminder.Status__c+'!</b>'
+                pReminder.Due_Date__c.format(dateFormat) + ' - ' + 
+                pReminder.Reminder_Description__c + 
+                ' - (<b>'+pReminder.Status__c+'</b>)'
             );
             emailsToSend.put(pReminder.Pop_User__r.Email__c, emailBody);
         }

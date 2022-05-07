@@ -56,7 +56,7 @@ public class PopReminderUtil {
         String finalDescription;
         String token = '<li>'+newDescription+'</li>';
         if(currDescription == null) {
-            finalDescription = '<h2>The following items are due or about to due. Please action!</h2>';
+            finalDescription = '<h3>The following items are due or about to due. Please action!</h3>';
             finalDescription += '<ol>'+token+'</ol>';
         } else {
             finalDescription = currDescription.substringBeforeLast('</ol>') + token + '</ol>';
