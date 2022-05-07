@@ -19,7 +19,8 @@ public class ProcessPopReminder implements Database.Batchable<sObject> {
                 currentDescription, 
                 pReminder.Due_Date__c.format(dateFormat) + ' - ' + 
                 pReminder.Reminder_Description__c + 
-                ' - (<b>'+pReminder.Status__c+'</b>)'
+                ' - (<b>'+pReminder.Status__c+'</b>) - (<b>' +
+                pReminder.Severity__c + '</b>)'
             );
             emailsToSend.put(pReminder.Pop_User__r.Email__c, emailBody);
         }
