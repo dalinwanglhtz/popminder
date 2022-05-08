@@ -54,17 +54,21 @@ public class PopReminderUtil {
     
     public static String processDescription(String currDescription, String newDescription) {
         String finalDescription;
+        String tableStyle = 'background-color:#eee;border-collapse:collapse';
+        String headerStyle = 'background-color:#000;color:white;width:20%';
+        String headerStyleWithLongerWidth = 'background-color:#000;color:white;width:50%';
+        String rowStyle = 'padding:5px;border:1px solid #000';
         String token = '<tr>'+newDescription+'</tr>';
         if(currDescription == null) {
-            finalDescription += '<!DOCTYPE html>' +
-					'<html><head><style>' +
-					'table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}' +
-					'td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}' +
-					'tr:nth-child(even) {background-color: #dddddd;}' +
-					'</style></head><body>';
             finalDescription = '<h3>The following items are due or about to due. Please action!</h3>';
-            finalDescription += '<table><tr><th>Due Date</th><th>Description</th><th>Status</th><th>Severity</th></tr>';
-            finalDescription += token + '</table></body></html>';
+            finalDescription += '<table style="'+tableStyle+'">'+
+                '<tr style="'+rowStyle+'">'+
+                '<th style="'+headerStyle+'">Due Date</th>'+
+                '<th style="'+headerStyleWithLongerWidth+'">Description</th>'+
+                '<th style="'+headerStyle+'">Status</th>'+
+                '<th style="'+headerStyle+'">Severity</th>'+
+                '</tr>';
+            finalDescription += token + '</table>';
         } else {
             finalDescription = currDescription.substringBeforeLast('</table>') + token + '</table>';
         }
