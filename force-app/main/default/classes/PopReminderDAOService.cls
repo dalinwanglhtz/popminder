@@ -1,10 +1,10 @@
 public class PopReminderDAOService implements PopReminderDAO {
 
-    public Pop_User__c getPopReminderUser() {
+    public Pop_User__c getPopReminderUser(String email, String nickName) {
         return [
-            SELECT Id, Name, Email__c, Persona__r.Name
+            SELECT Id, Name, Email__c, Persona__r.Name, NickName__c
             FROM Pop_User__c
-            WHERE Persona__c = :UserInfo.getUserId()
+            WHERE Email__c = :email AND NickName__c = :nickName
         ];
     }
     

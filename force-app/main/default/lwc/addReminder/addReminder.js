@@ -11,6 +11,8 @@ export default class AddReminder extends LightningElement {
     @track records;
     @api recordJson;
     @track columns=columns;
+    @api email;
+    @api nickName;
 
     submit(event) {
         var table = this.template.querySelector('c-dynamic-table');

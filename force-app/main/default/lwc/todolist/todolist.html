@@ -1,7 +1,8 @@
 <template>
     <div if:false={isPopUser}>
         <c-register-pop-user 
-            onpopuserregistered={popUserRegisterHandler}>
+            onpopuserregistered={popUserRegisterHandler}
+            onpopuserfound={popUserRegisterHandler}>
         </c-register-pop-user>
     </div>
     <div if:true={isPopUser}>
@@ -9,10 +10,10 @@
             Hello!&nbsp;{userName}
         </div>
         <div if:true={toAddReminder} class="slds-var-m-top_small">
-            <c-add-reminder onremindercreated={handleReminderCreated}></c-add-reminder>
+            <c-add-reminder email={email} nick-name={userName} onremindercreated={handleReminderCreated}></c-add-reminder>
         </div>
         <div class="slds-var-m-top_small">
-            <c-list-reminders ontriggershowhide={handleShowHide}></c-list-reminders>
+            <c-list-reminders email={email} nick-name={userName} ontriggershowhide={handleShowHide}></c-list-reminders>
         </div>
     </div>
 </template>

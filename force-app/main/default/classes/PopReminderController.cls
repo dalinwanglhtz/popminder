@@ -1,4 +1,4 @@
-public class PopReminderController {
+public without sharing class PopReminderController {
     
     public static PopReminderDAO popReminderDAO {
         get {
@@ -25,10 +25,10 @@ public class PopReminderController {
     }
     
     @AuraEnabled
-    public static Pop_User__c getPopUser() {
+    public static Pop_User__c getPopUser(String email, String nickName) {
         Pop_User__c pUser;
         try {
-            pUser = popReminderDAO.getPopReminderUser();
+            pUser = popReminderDAO.getPopReminderUser(email, nickName);
         } catch(Exception e) {
             throw new AuraHandledException('Pop User not found. Please register');
         }
@@ -36,9 +36,10 @@ public class PopReminderController {
     }
     
     @AuraEnabled
-    public static void createPopUser(String email) {
+    public static void createPopUser(String email, String nickName) {
         Pop_User__c pUser = new Pop_User__c();
         pUser.Email__c = email;
+        pUser.NickName__c = nickName;
         pUser.Persona__c = UserInfo.getUserId();
         try {
         	insert pUser;    
@@ -87,8 +88,8 @@ public class PopReminderController {
     }
     
     @AuraEnabled(cacheable=true)
-    public static List<Pop_Reminder__c> getPopReminders(String userId) {
-        Pop_User__c pUser = getPopUser();
+    public static List<Pop_Reminder__c> getPopReminders(String email, String nickName) {
+        Pop_User__c pUser = getPopUser(email, nickName);
         return popReminderDAO.selectRemindersByUserId(pUser.Id);
     }
     

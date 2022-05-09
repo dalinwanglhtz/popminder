@@ -1,40 +1,18 @@
 import { LightningElement } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import getUser from '@salesforce/apex/PopReminderController.getUser';
-import getPopUser from '@salesforce/apex/PopReminderController.getPopUser';
 
 export default class Todolist extends LightningElement {
-    isPopUser;
+    isPopUser = false;
     toAddReminder = false;
     popUser;
     userName;
+    email;
     error;
 
-    connectedCallback() {
-        getPopUser()
-        .then(result => {
-            this.isPopUser = true;
-            this.getCurrentUser();
-        })
-        .catch(error => {
-            this.showToastMessage('Info', error.body.message, 'info');
-            this.isPopUser = false;
-        });
-    }
-
-    getCurrentUser() {
-        getUser()
-        .then(output => {
-            this.userName = output.Name;
-        })
-        .catch(err => {
-            this.error = err;
-        });
-    }
-
-    popUserRegisterHandler() {
+    popUserRegisterHandler(event) {
+        this.userName = event.detail.nickName;
+        this.email = event.detail.email;
         this.isPopUser = true;
-        this.getCurrentUser();
     }
 
     handleReminderCreated() {

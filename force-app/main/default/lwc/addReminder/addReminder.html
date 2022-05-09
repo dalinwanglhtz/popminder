@@ -2,7 +2,9 @@
     <c-dynamic-table 
         object-api-name="Pop_Reminder__c" 
         column-list={columns} 
-        title="What do you want to remind yourself?">
+        title="What do you want to remind yourself?"
+        email={email}
+        nick-name={nickName}>
     </c-dynamic-table>
     <div class="slds-var-m-top_small">
         <lightning-button variant="brand" label="Submit" onclick={submit}></lightning-button>

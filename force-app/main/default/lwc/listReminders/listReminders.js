@@ -33,13 +33,15 @@ const columns = [
 
 export default class ListReminders extends LightningElement {
     title = 'Reminders';
+    @api email;
+    @api nickName;
     @track records = [];
     @track refreshedRecords = [];
     columns = columns;
     error;
     draftValues = [];
 
-    @wire(getPopReminders)
+    @wire(getPopReminders, {email: '$email', nickName: '$nickName'})
     reminderList(result) {
         this.refreshedRecords = result;
 
@@ -53,7 +55,7 @@ export default class ListReminders extends LightningElement {
     }
 
     connectedCallback() {
-        getPopReminders()
+        getPopReminders({email: this.email, nickName: this.nickName})
         .then(result => {
             this.records = result;
         })

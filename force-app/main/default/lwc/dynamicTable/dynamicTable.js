@@ -8,6 +8,8 @@ export default class DynamicTable extends LightningElement {
     @track objectApiName;
     @track pickListValues;
     @track rows = [{uuid: this.createUUID()}];
+    @api email;
+    @api nickName;
     error;
     popUser;
 
@@ -16,7 +18,7 @@ export default class DynamicTable extends LightningElement {
         if(cleanedColumnList) {
             this.columns = cleanedColumnList;
         }
-        getPopUser()
+        getPopUser({email: this.email, nickName: this.nickName})
         .then(result => {
             console.log('pUser: ', result);
             this.popUser = result;
