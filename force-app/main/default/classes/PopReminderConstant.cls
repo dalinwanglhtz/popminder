@@ -7,4 +7,8 @@ public class PopReminderConstant {
     public static final String REMINDER_DUE = 'Due';
     public static final String REMINDER_ALMOST_DUE = 'Almost Due';
     public static final String REMINDER_COUNTING_DOWN = 'Counting Down';
+    public static final String EMAIL_BODY_TABLE_STYLE = 'background-color:#eee;border-collapse:collapse';
+    public static final String EMAIL_BODY_HEADER_STYLE = 'background-color:#000;color:white;width:20%';
+    public static final String EMAIL_BODY_HEADER_LONG_WIDTH_STYLE = 'background-color:#000;color:white;width:50%';
+    public static final String EMAIL_BODY_ROW_STYLE = 'padding:5px;border:1px solid #000';
 }

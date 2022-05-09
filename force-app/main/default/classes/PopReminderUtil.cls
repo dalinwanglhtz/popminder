@@ -54,19 +54,15 @@ public class PopReminderUtil {
     
     public static String processDescription(String currDescription, String newDescription) {
         String finalDescription;
-        String tableStyle = 'background-color:#eee;border-collapse:collapse';
-        String headerStyle = 'background-color:#000;color:white;width:20%';
-        String headerStyleWithLongerWidth = 'background-color:#000;color:white;width:50%';
-        String rowStyle = 'padding:5px;border:1px solid #000';
         String token = '<tr>'+newDescription+'</tr>';
         if(currDescription == null) {
             finalDescription = '<h3>The following items are due or about to due. Please action!</h3>';
-            finalDescription += '<table style="'+tableStyle+'">'+
-                '<tr style="'+rowStyle+'">'+
-                '<th style="'+headerStyle+'">Due Date</th>'+
-                '<th style="'+headerStyleWithLongerWidth+'">Description</th>'+
-                '<th style="'+headerStyle+'">Status</th>'+
-                '<th style="'+headerStyle+'">Severity</th>'+
+            finalDescription += '<table style="'+PopReminderConstant.EMAIL_BODY_TABLE_STYLE+'">'+
+                '<tr style="'+PopReminderConstant.EMAIL_BODY_ROW_STYLE+'">'+
+                '<th style="'+PopReminderConstant.EMAIL_BODY_HEADER_STYLE+'">Due Date</th>'+
+                '<th style="'+PopReminderConstant.EMAIL_BODY_HEADER_LONG_WIDTH_STYLE+'">Description</th>'+
+                '<th style="'+PopReminderConstant.EMAIL_BODY_HEADER_STYLE+'">Status</th>'+
+                '<th style="'+PopReminderConstant.EMAIL_BODY_HEADER_STYLE+'">Severity</th>'+
                 '</tr>';
             finalDescription += token + '</table>';
         } else {
