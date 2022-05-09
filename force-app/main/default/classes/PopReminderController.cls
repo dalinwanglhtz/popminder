@@ -40,7 +40,14 @@ public class PopReminderController {
         Pop_User__c pUser = new Pop_User__c();
         pUser.Email__c = email;
         pUser.Persona__c = UserInfo.getUserId();
-        insert pUser;
+        try {
+        	insert pUser;    
+        } catch(Exception e) {
+            if(e.getMessage().contains('DUPLICATE_VALUE')) {
+                throw new AuraHandledException('User with this email already exist.');
+            }
+            throw new AuraHandledException(e.getMessage());
+        }
     }
     
     @AuraEnabled
