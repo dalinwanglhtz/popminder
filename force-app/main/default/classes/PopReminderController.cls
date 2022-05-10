@@ -10,18 +10,6 @@ public without sharing class PopReminderController {
         set {
             popReminderDAO = value;
         }
-    } 
-
-    @AuraEnabled
-    public static User getUser() {
-        User user;
-        try {
-            user = popReminderDAO.getCurrentUser();
-        } catch (Exception e) {
-            throw new AuraHandledException('User not found. ');
-        }
-        
-        return user;
     }
     
     @AuraEnabled

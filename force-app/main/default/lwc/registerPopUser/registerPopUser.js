@@ -1,7 +1,6 @@
 import { LightningElement } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import createPopUser from '@salesforce/apex/PopReminderController.createPopUser';
-import getUser from '@salesforce/apex/PopReminderController.getUser';
 import getPopUser from '@salesforce/apex/PopReminderController.getPopUser';
 
 export default class RegisterPopUser extends LightningElement {

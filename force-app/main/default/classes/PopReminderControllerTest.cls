@@ -5,27 +5,19 @@ public class PopReminderControllerTest {
     static void setup() {
         Pop_User__c pUser = new Pop_User__c();
         pUser.Email__c = 'test@email.com';
+        pUser.NickName__c = 'testNick';
         pUser.Persona__c = UserInfo.getUserId();
         insert pUser;
-    }
-
-    @IsTest
-    static void testGetUser() {
-        PopReminderController.popReminderDAO = new MockPopReminderDAOServiceImpl();
-        
-        Test.startTest();
-        User testUser = PopReminderController.getUser();
-        Test.stopTest();
-        
-        System.assertEquals(UserInfo.getUserId(), testUser.Id, 'User ID returned should be the same as current user.');
     }
     
     @IsTest
     static void testGetPopReminderUser() {
         PopReminderController.popReminderDAO = new MockPopReminderDAOServiceImpl();
+        String testEmail = 'test@email.com';
+        String nickName = 'testNick';
         
         Test.startTest();
-        Pop_User__c pUser = PopReminderController.getPopUser();
+        Pop_User__c pUser = PopReminderController.getPopUser(testEmail, nickName);
         Test.stopTest();
         
         System.assertEquals('test@email.com', pUser.Email__c, 'Pop User returned correctly');
@@ -41,10 +33,13 @@ public class PopReminderControllerTest {
         
         delete pUser;
         
+        String testEmail = 'test@email.com';
+        String nickName = 'testNick';
+        
         Test.startTest();
         Boolean hasException = false;
         try {
-            pUser = PopReminderController.getPopUser();
+            pUser = PopReminderController.getPopUser(testEmail, nickName);
         } catch (Exception e) {
             hasException = true;
         }
@@ -55,10 +50,11 @@ public class PopReminderControllerTest {
     
     @IsTest
     static void testCreatePopUser() {
-        String testEmail = 'dale@email.com';
+        String testEmail = 'sam@email.com';
+        String nickName = 'testSam';
         
         Test.startTest();
-        PopReminderController.createPopUser(testEmail);
+        PopReminderController.createPopUser(testEmail, nickName);
         Test.stopTest();
         
         Pop_User__c pUser = [
@@ -68,6 +64,23 @@ public class PopReminderControllerTest {
         ];
         
         System.assert(pUser != null, 'Pop user created successfully');
+    }
+    
+    @IsTest
+    static void testCreatePopUserThrowException() {
+        String testEmail = 'test@email.com';
+        String nickName = 'testNick';
+        
+        Test.startTest();
+        Boolean hasException = false;
+        try {
+        	PopReminderController.createPopUser(testEmail, nickName);    
+        } catch (Exception e) {
+            hasException = true;
+        }
+        Test.stopTest();
+        
+        System.assertEquals(true, hasException, 'Should throw exception.');
     }
     
     @IsTest
@@ -182,7 +195,7 @@ public class PopReminderControllerTest {
         insert reminders;
         
         Test.startTest();
-        List<Pop_Reminder__c> results = PopReminderController.getPopReminders(pUser.Id);
+        List<Pop_Reminder__c> results = PopReminderController.getPopReminders(pUser.Email__c, pUser.NickName__c);
         Test.stopTest();
         
         System.assertEquals(2, results.size(), 'Should return list of reminders.');
@@ -191,7 +204,7 @@ public class PopReminderControllerTest {
     
     private static Pop_User__c getPopReminderUser() {
         return [
-            SELECT Id, Name
+            SELECT Id, Name, Email__c, NickName__c
             FROM Pop_User__c
             LIMIT 1
         ];
@@ -214,14 +227,8 @@ public class PopReminderControllerTest {
     }
     
     public class MockPopReminderDAOServiceImpl extends MockPopReminderDAOService {
-
-        public override User getCurrentUser() {
-            User user = new User();
-            user.Id = UserInfo.getUserId();
-            return user;
-        }
         
-        public override Pop_User__c getPopReminderUser() {
+        public override Pop_User__c getPopReminderUser(String email, String nickName) {
             ID userId = TestUtility.getFakeId(Pop_User__c.SObjectType);
             Pop_User__c pUser = new Pop_User__c();
             pUser.Persona__c = UserInfo.getUserId();

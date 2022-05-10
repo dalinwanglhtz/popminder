@@ -1,6 +1,6 @@
 public virtual class MockPopReminderDAOService implements PopReminderDAO {
     
-    public virtual Pop_User__c getPopReminderUser() {
+    public virtual Pop_User__c getPopReminderUser(String email, String nickName) {
         return null;
     }
     
