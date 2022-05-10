@@ -17,7 +17,7 @@ export default class RegisterPopUser extends LightningElement {
         getPopUser({email: email, nickName: nickName})
         .then(result => {
             let popUser = {email: result.Email__c, nickName: result.NickName__c};
-            this.showToastMessage('Success', 'Pop user registered successfully!', 'success');
+            this.showToastMessage('Success', 'Pop user found!', 'success');
             this.dispatchEvent(
                 new CustomEvent('popuserfound', {detail: popUser})
             );

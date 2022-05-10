@@ -20,7 +20,6 @@ export default class DynamicTable extends LightningElement {
         }
         getPopUser({email: this.email, nickName: this.nickName})
         .then(result => {
-            console.log('pUser: ', result);
             this.popUser = result;
         })
         .catch(err => {
