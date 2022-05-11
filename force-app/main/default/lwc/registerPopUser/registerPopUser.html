@@ -2,11 +2,11 @@
     <lightning-card class="slds-card_boundary" icon-name="custom:custom15">
         <h1 slot="title">{title}</h1>
         <div class="slds-var-m-around_small">
-            <lightning-input value={emailValue} type="email" label="Email"></lightning-input>
+            <lightning-input type="email" label="Email"></lightning-input>
             <br/>
-            <lightning-input value={nickNameValue} type="text" label="Nick Name"></lightning-input>
+            <lightning-input type="text" label="Nick Name"></lightning-input>
             <br/>
-            <lightning-button variant="brand" label="Submit" onclick={handleSubmit}></lightning-button>
+            <lightning-button variant="brand" label="Enter" onclick={handleSubmit}></lightning-button>
         </div>
     </lightning-card>
 </template>

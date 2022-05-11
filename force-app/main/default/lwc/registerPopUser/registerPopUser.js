@@ -4,9 +4,7 @@ import createPopUser from '@salesforce/apex/PopReminderController.createPopUser'
 import getPopUser from '@salesforce/apex/PopReminderController.getPopUser';
 
 export default class RegisterPopUser extends LightningElement {
-    title = 'Register Pop User';
-    emailValue;
-    nickNameValue;
+    title = 'Who are you? Register or Login with your email and nickname!';
     error;
 
     handleSubmit() {
