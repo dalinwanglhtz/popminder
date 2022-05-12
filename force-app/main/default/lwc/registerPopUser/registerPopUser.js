@@ -4,13 +4,17 @@ import createPopUser from '@salesforce/apex/PopReminderController.createPopUser'
 import getPopUser from '@salesforce/apex/PopReminderController.getPopUser';
 
 export default class RegisterPopUser extends LightningElement {
-    title = 'Who are you? Register or Login with your email and nickname!';
+    title = 'Register or Login with your email and nickname!';
     error;
 
     handleSubmit() {
         let inputs = this.template.querySelectorAll('lightning-input');
         let email = inputs[0].value;
         let nickName = inputs[1].value;
+        if(!email || !nickName) {
+            alert('Please complete all fields before enter.');
+            return;
+        }
 
         getPopUser({email: email, nickName: nickName})
         .then(result => {
@@ -34,6 +38,12 @@ export default class RegisterPopUser extends LightningElement {
                 this.showToastMessage('Error', 'Pop user failed to register: '+error.body.message, 'error');
             });
         });
+    }
+
+    handleEnter(event) {
+        if(event.keyCode == 13) {
+            this.handleSubmit();
+        }
     }
 
     showToastMessage(title, message, variant) {
