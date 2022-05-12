@@ -23,7 +23,8 @@ const columns = [
             hour: '2-digit',
             minute: '2-digit'
         },
-        editable: true},
+        editable: true,
+        sortable: true},
     {label: 'Status', fieldName: 'Status__c', editable: false},
     {
         type: 'action',
@@ -40,6 +41,8 @@ export default class ListReminders extends LightningElement {
     columns = columns;
     error;
     draftValues = [];
+    sortBy;
+    sortDirection;
 
     @wire(getPopReminders, {email: '$email', nickName: '$nickName'})
     reminderList(result) {
@@ -101,6 +104,28 @@ export default class ListReminders extends LightningElement {
         } catch(error) {
             this.showToastMessage('Error', 'Update reminder(s) failed. Please make sure all fields are entered properly', 'error');
         }
+    }
+
+    handleSort(event) {
+        this.sortBy = event.detail.fieldName;
+        this.sortDirection = event.detail.sortDirection;
+        this.sortRecords(this.sortBy, this.sortDirection);
+    }
+
+    sortRecords(fieldName, direction) {
+        let parseData = JSON.parse(JSON.stringify(this.records));
+        let keyValue = (a) => {
+            return a[fieldName];
+        }
+
+        let isReverse = direction == 'asc' ? 1 : -1;
+
+        parseData.sort((x,y) => {
+            x = keyValue(x) ? keyValue(x) : '';
+            y = keyValue(y) ? keyValue(y) : '';
+            return isReverse * ((x>y) - (x<y));
+        });
+        this.records = parseData;
     }
 
     showToastMessage(title, message, variant) {
