@@ -6,11 +6,13 @@ export default class Todolist extends LightningElement {
     toAddReminder = false;
     popUser;
     userName;
+    displayName;
     email;
     error;
 
     popUserRegisterHandler(event) {
         this.userName = event.detail.nickName;
+        this.displayName = this.userName.substring(0,1).toUpperCase() + this.userName.substring(1, this.userName.length);
         this.email = event.detail.email;
         this.isPopUser = true;
     }
