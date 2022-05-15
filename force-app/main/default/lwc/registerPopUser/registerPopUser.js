@@ -11,6 +11,11 @@ export default class RegisterPopUser extends LightningElement {
         let inputs = this.template.querySelectorAll('lightning-input');
         let email = inputs[0].value;
         let nickName = inputs[1].value;
+        
+        if(!this.isEmailValid(email)) {
+            alert('Please enter a valid email before enter.');
+            return;
+        }
         if(!email || !nickName) {
             alert('Please complete all fields before enter.');
             return;
@@ -38,6 +43,11 @@ export default class RegisterPopUser extends LightningElement {
                 this.showToastMessage('Error', 'Pop user failed to register: '+error.body.message, 'error');
             });
         });
+    }
+
+    isEmailValid(emailValue) {
+        const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return emailValue.match(emailRegex);
     }
 
     handleEnter(event) {
