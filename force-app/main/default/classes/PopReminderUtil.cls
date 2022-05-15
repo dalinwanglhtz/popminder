@@ -27,17 +27,6 @@ public class PopReminderUtil {
         return values;
     }
     
-    public static void scheduleReminder(Pop_Reminder__c pReminder, Map<Id, Pop_User__c> pUserMap) {
-        Pop_User__c pUser = pUserMap.get(pReminder.Pop_User__c);
-        ScheduleWork sw = new ScheduleWork();
-        sw.setEmailToAddress(pUser.Email__c);
-        sw.setEmailSubject('Reminder for action!!');
-        sw.setEmailBody(pReminder.Reminder_Description__c);
-        Datetime scheduleTime = pReminder.Due_Date__c;
-        String schCronExp = scheduleTime.format('s m H d M \'?\' yyyy');
-        System.schedule('Reminder '+pReminder.Id, schCronExp, sw);
-    }
-    
     public static void updateStatus(Pop_Reminder__c reminder) {
         if(reminder.Due_Date__c <= Datetime.now() && reminder.Status__c != PopReminderConstant.REMINDER_DUE) {
             reminder.Status__c = PopReminderConstant.REMINDER_DUE;    
