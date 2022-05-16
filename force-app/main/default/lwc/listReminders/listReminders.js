@@ -44,12 +44,24 @@ export default class ListReminders extends LightningElement {
     sortBy;
     sortDirection;
 
+    // Pagination variables start
+    page = 1;
+    pageSize = 3;
+    totalPage = 0;
+    items = [];
+    totalRecordsCount = 0;
+    startingRecord = 1;
+    endingRecord = 0;
+    isPageChanged = false;
+    // Pagination variables end
+
     @wire(getPopReminders, {email: '$email', nickName: '$nickName'})
     reminderList(result) {
         this.refreshedRecords = result;
 
         if(result.data) {
-            this.records = result.data;
+            //this.records = result.data;
+            this.processRecords(result.data);
             this.error = undefined;
         } else {
             this.error = result.error;
@@ -69,6 +81,41 @@ export default class ListReminders extends LightningElement {
 
     @api refreshComponent() {
         refreshApex(this.refreshedRecords);
+    }
+
+    // Pagination method
+    processRecords(data) {
+        this.items = data;
+        this.totalRecordsCount = data.length;
+        this.totalPage = Math.ceil(this.totalRecordsCount / this.pageSize);
+        this.records = this.items.slice(0, this.pageSize);
+        this.endingRecord = this.pageSize;
+    }
+
+    // Pagination method
+    previousHandler() {
+        this.isPageChanged = true;
+        if(this.page > 1) {
+            this.page -= 1;
+            this.displayRecordPerPage(this.page);
+        }
+    }
+
+    // Pagination mehod
+    nextHandler() {
+        this.isPageChanged = true;
+        if(this.page < this.totalPage && this.page !== this.totalPage) {
+            this.page += 1;
+            this.displayRecordPerPage(this.page);
+        }
+    }
+
+    // Pagination method
+    displayRecordPerPage(page) {
+        this.startingRecord = ((page - 1) * this.pageSize);
+        this.endingRecord = this.pageSize * page;
+        this.endingRecord = (this.endingRecord > this.totalRecordsCount) ? this.totalRecordsCount : this.endingRecord;
+        this.records = this.items.slice(this.startingRecord, this.endingRecord);
     }
 
     handleRowAction(event) {
