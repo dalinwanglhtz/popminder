@@ -4,6 +4,14 @@
             <lightning-button variant="base" label="Show/Hide Add Reminder" onclick={handleShowHide}></lightning-button>
         </div>
         <div class="slds-var-m-around_small">
+            <lightning-input
+                type="search"
+                onchange={handleKeyChange}
+                class="slds-var-m-bottom_small"
+                label="Search"
+                value={searchKey}>
+            </lightning-input>
+
             <lightning-datatable
                 key-field="Id"
                 data={records}

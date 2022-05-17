@@ -55,28 +55,23 @@ export default class ListReminders extends LightningElement {
     isPageChanged = false;
     // Pagination variables end
 
+    // Search variables start
+    originalRecords = [];
+    searchKey = '';
+    // Search variables end
+
     @wire(getPopReminders, {email: '$email', nickName: '$nickName'})
     reminderList(result) {
         this.refreshedRecords = result;
 
         if(result.data) {
-            //this.records = result.data;
+            this.originalRecords = result.data;
             this.processRecords(result.data);
             this.error = undefined;
         } else {
             this.error = result.error;
             this.records = [];
         }
-    }
-
-    connectedCallback() {
-        getPopReminders({email: this.email, nickName: this.nickName})
-        .then(result => {
-            this.records = result;
-        })
-        .catch(err => {
-            this.error = err;
-        });
     }
 
     @api refreshComponent() {
@@ -116,6 +111,22 @@ export default class ListReminders extends LightningElement {
         this.endingRecord = this.pageSize * page;
         this.endingRecord = (this.endingRecord > this.totalRecordsCount) ? this.totalRecordsCount : this.endingRecord;
         this.records = this.items.slice(this.startingRecord, this.endingRecord);
+    }
+
+    // Search method
+    handleKeyChange(event) {
+        this.searchKey = event.target.value;
+        let data = [];
+        if(this.searchKey == '') {
+            data = [...this.originalRecords];
+        } else {            
+            this.items.forEach((item) => {
+                if(item != undefined && item.Reminder_Description__c.includes(this.searchKey)) {
+                    data.push(item);
+                }
+            });
+        }
+        this.processRecords(data);
     }
 
     handleRowAction(event) {
