@@ -7,7 +7,7 @@
     </div>
     <div if:true={isPopUser}>
         <div class="slds-text-heading_medium">
-            Hello!&nbsp;{displayName},&nbsp;you can refresh browser to log out!
+            Hello,&nbsp;{displayName}!&nbsp;You can refresh browser to log out!
         </div>
         <div if:true={toAddReminder} class="slds-var-m-top_small">
             <c-add-reminder email={email} nick-name={userName} onremindercreated={handleReminderCreated}></c-add-reminder>
