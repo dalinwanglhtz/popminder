@@ -33,7 +33,7 @@ public without sharing class PopReminderController {
         	insert pUser;    
         } catch(Exception e) {
             if(e.getMessage().contains('DUPLICATE_VALUE')) {
-                throw new AuraHandledException('User with this email already exist.');
+                throw new AuraHandledException('User already exist with this email or nick name');
             }
             throw new AuraHandledException(e.getMessage());
         }
