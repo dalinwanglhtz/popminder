@@ -26,6 +26,10 @@ export default class Todolist extends LightningElement {
         this.toAddReminder = !this.toAddReminder;
     }
 
+    handleLogout() {
+        location.reload();
+    }
+
     showToastMessage(title, message, variant) {
         this.dispatchEvent(
             new ShowToastEvent({
