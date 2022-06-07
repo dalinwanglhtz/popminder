@@ -21,7 +21,7 @@ public class PopReminderDAOService implements PopReminderDAO {
             SELECT Id, Name, Reminder_Description__c, Due_Date__c, Severity__c, Status__c
             FROM Pop_Reminder__c
             WHERE Pop_User__c = :userId
-            ORDER BY Due_Date__c ASC
+            ORDER BY Due_Date__c DESC
         ];
     }
 }
