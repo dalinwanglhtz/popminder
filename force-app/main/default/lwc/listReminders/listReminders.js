@@ -116,12 +116,13 @@ export default class ListReminders extends LightningElement {
     // Search method
     handleKeyChange(event) {
         this.searchKey = event.target.value;
+        let sKey = this.searchKey.toLowerCase();
         let data = [];
-        if(this.searchKey == '') {
+        if(sKey == '') {
             data = [...this.originalRecords];
         } else {            
             this.items.forEach((item) => {
-                if(item != undefined && item.Reminder_Description__c.includes(this.searchKey)) {
+                if(item != undefined && item.Reminder_Description__c.toLowerCase().includes(sKey)) {
                     data.push(item);
                 }
             });
